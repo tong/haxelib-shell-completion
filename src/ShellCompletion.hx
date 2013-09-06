@@ -2,16 +2,21 @@
 import haxe.io.Bytes;
 
 /*
-	COMPREPLY: an array containing possible completions as a result of your function
-	COMP_WORDS: an array containing individual command arguments typed so far
-	COMP_CWORD: the index of the command argument containing the current cursor position
-	COMP_LINE: the current command line
 */
 class ShellCompletion {
 
-	public static function output( words : Array<String> ) {
-		//Sys.stdout().write( Bytes.ofString( words.join(" ") ) );
-		Sys.stdout().writeString( words.join(" ") );
+	/***/
+	public static inline var LIB_NEKO = "completion.n";
+
+	//function new() {}
+	//public function create() : Array<String> {
+
+	public static inline function writeWords( words : Array<String> ) {
+		write( words.join(" ") );
+	}
+
+	public static inline function write( s : String ) {
+		Sys.stdout().writeString( s );
 	}
 	
 	/*

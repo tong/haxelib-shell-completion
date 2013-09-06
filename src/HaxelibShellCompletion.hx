@@ -16,44 +16,48 @@ class HaxelibShellCompletion {
 		if( words.length == 0 )
 			return haxelib_commands;
 		var prev = words[cword-1];
-		return switch prev {
+		switch prev {
 		case "config","proxy","register","search","selfupdate","setup","upgrade","user":
-			null;
+			return null;
 		case "install":
-			null; //TODO getAvailableLibraries();
+			return null; //TODO getAvailableLibraries();
 		case "dev","git","info","list","path","set","update","remove":
-			getInstalledLibraries();
+			return getInstalledLibraries();
 		case "local","submit":
 			var reply = new Array<String>();
 			var path = Sys.getCwd();
 			for( f in FileSystem.readDirectory( path ) )
 				if( f.endsWith('.zip') )
 					reply.push( f );
-			reply;
+			return reply;
 		case "run":
-			getRunableLibraries();
+			return getRunableLibraries();
 		case _:
-			if( words[0] == 'run' ) {
+			switch words[0] {
+			case "run":
 				var lib = words[1];
 				if( lib != null ) {
-					//TODO
 					var libPath = getHaxelibLibraryPath( lib );
-					//Sys.command( 'sh', ['/home/tong/disktree/exp/haxelib-shell-completion/res/hxcpp-completion.sh'].concat( words.slice(2) ) );
-					/*
-					var libBinPath = '$libPath/shell-complete.n';
-					if( FileSystem.exists( libBinPath ) ) {
-						//Sys.command( 'neko', [libBinPath].concat( words.slice(2) ) );
-						//var l = neko.vm.Loader.local();
-						//var m = l.loadModule( libBinPath );
-						var classes = m.exportsTable().__classes;
-						var i = Type.createInstance( classes.TestShellCompletion, [] );
-						trace( i.shell_complete() );
+					if( libPath != null ) {
+						var libBinPath = '$libPath/${ShellCompletion.LIB_NEKO}';
+						if( FileSystem.exists( libBinPath ) ) {
+							var l = neko.vm.Loader.local();
+							var m = l.loadModule( libBinPath );
+							var classes = m.exportsTable().__classes;
+							var r : Array<String> = null;
+							try {
+								r = classes.ShellCompletion.complete( words.slice(2), cword-2 );
+							} catch(e:Dynamic) {
+								trace(e);
+							}
+							return r;
+						}
 					}
-					*/
 				}
-				null;
-			} else
-				haxelib_commands;
+				return null;
+			case _:
+				return haxelib_commands;
+			}
 		}
 	}
 
@@ -98,6 +102,10 @@ class HaxelibShellCompletion {
 	}
 
 	static function main() {
+		if( Sys.systemName() != 'Linux' ) {
+			Sys.println( 'Your OS is not supported yet' );
+			Sys.exit( 1 );
+		}
 		var args = Sys.args();
 		var cmd = args.shift();
 		switch cmd {
@@ -105,10 +113,11 @@ class HaxelibShellCompletion {
 			var cword = Std.parseInt( args.pop() )-1;
 			var words = haxelib_complete( args, cword );
 			if( words != null )
-				ShellCompletion.output( words );
+				ShellCompletion.writeWords( words );
 		//case "install":
 		//case "cache": 
 		//case "update":
+		//case "custom":
 		}
 	}
 
