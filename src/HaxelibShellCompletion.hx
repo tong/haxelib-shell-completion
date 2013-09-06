@@ -24,8 +24,12 @@ class HaxelibShellCompletion {
 		case "dev","git","info","list","path","set","update","remove":
 			getInstalledLibraries();
 		case "local","submit":
-			// TODO zips only or filepath
-
+			var reply = new Array<String>();
+			var path = Sys.getCwd();
+			for( f in FileSystem.readDirectory( path ) )
+				if( f.endsWith('.zip') )
+					reply.push( f );
+			reply;
 		case "run":
 			getRunableLibraries();
 		case _:
