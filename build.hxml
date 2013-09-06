@@ -1,0 +1,5 @@
+-neko run.n
+-main HaxelibShellCompletion
+-cp src
+-dce full
+#--no-traces
