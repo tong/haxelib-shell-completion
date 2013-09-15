@@ -1,12 +1,8 @@
 
 import haxe.io.Bytes;
 
-/*
-*/
 class ShellCompletion {
 
-	/***/
-	public static inline var LIB_NEKO = "completion.n";
 
 	//function new() {}
 	//public function create() : Array<String> {
@@ -24,5 +20,26 @@ class ShellCompletion {
 		return macro haxe.Json.parse( File.getContent('haxelib.json') ).version;
 	}
 	*/
+
+
+	#if macro
+
+	public static function install(){
+		
+		if( Sys.systemName() != 'Linux' ) {
+			Sys.println( 'Your operating system is not supported' );
+			Sys.exit( 1 );
+		}
+
+		var installPath = '/etc/bash_completion.d';
+		try {
+			sys.io.File.copy( 'res/haxelib-completion.sh', '$installPath/haxelib' );
+		} catch(e:Dynamic) {
+			trace(e);
+		}
+
+	}
+
+	#end
 
 }

@@ -38,26 +38,26 @@ class HaxelibShellCompletion {
 				var lib = words[1];
 				if( lib != null ) {
 					var libPath = getHaxelibLibraryPath( lib );
+					var params = words.slice(2);
+					var index = cword-2;
 					if( libPath != null ) {
-						var libBinPath = '$libPath/${ShellCompletion.LIB_NEKO}';
-						if( FileSystem.exists( libBinPath ) ) {
-							var l = neko.vm.Loader.local();
-							var m = l.loadModule( libBinPath );
-							var classes = m.exportsTable().__classes;
-							var r : Array<String> = null;
-							try {
-								r = classes.ShellCompletion.complete( words.slice(2), cword-2 );
-							} catch(e:Dynamic) {
-								trace(e);
-							}
-							return r;
-						}
+						var r = runCompletionModule( '$libPath/run.n', params, index );
+						return r;
 					}
 				}
 				return null;
 			case _:
 				return haxelib_commands;
 			}
+		}
+	}
+
+	static function runCompletionModule( mod : String, params : Array<String>, index : Int ) : Array<String> {
+		var l = neko.vm.Loader.local();
+		var m = l.loadModule( mod );
+		var cl = m.exportsTable().__classes;
+		try return cl.ShellCompletion.complete( params, index ) catch(e:Dynamic) {
+			return null;
 		}
 	}
 
@@ -102,10 +102,16 @@ class HaxelibShellCompletion {
 	}
 
 	static function main() {
+		
 		if( Sys.systemName() != 'Linux' ) {
-			Sys.println( 'Your OS is not supported yet' );
+			Sys.println( 'Your operating system is not supported yet' );
 			Sys.exit( 1 );
 		}
+
+		var cwd = Sys.getCwd();
+		var script = cwd+'res/haxelib-completion.sh';
+		var targetDirectory = '/etc/bash_completion.d';
+		var installPath = '$targetDirectory/haxelib';
 		var args = Sys.args();
 		var cmd = args.shift();
 		switch cmd {
@@ -114,10 +120,26 @@ class HaxelibShellCompletion {
 			var words = haxelib_complete( args, cword );
 			if( words != null )
 				ShellCompletion.writeWords( words );
-		//case "install":
+		/*
+		case "install":
+			if( FileSystem.exists( installPath ) )
+				FileSystem.deleteFile( installPath );
+			try File.copy( script, installPath ) catch(e:Dynamic) {
+				Sys.println(e);
+				return;
+			}
+			Sys.println( 'Haxelib shell-completion successfully installed' );
+		case "uninstall":
+			try FileSystem.deleteFile( installPath ) catch(e:Dynamic) {
+				Sys.println(e);
+				Sys.exit(1);
+			}
+		*/
 		//case "cache": 
 		//case "update":
 		//case "custom":
+		default:
+			Sys.println('???');
 		}
 	}
 

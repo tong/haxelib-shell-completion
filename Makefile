@@ -1,23 +1,25 @@
 
 ## haxelib-shell-completion
 
+PROJECT:=shell-completion
 SRC=src/*.hx
+HX=haxe -cp src
 
 run.n: $(SRC) build.hxml
 	haxe build.hxml
 
-shell-completion.zip: run.n $(SRC) res/*
-	zip -r $@ haxelib.json Makefile README run.n
+$(PROJECT).zip: run.n $(SRC)
+	zip -r $@ src/ res/haxelib-completion.sh haxelib.json Makefile README run.n
 
-haxelib: shell-completion.zip
+haxelib: $(PROJECT).zip
 
-install-haxelib: haxelib
-	haxelib install shell-completion.zip
+install: haxelib
+	haxelib install $(PROJECT).zip
 
-uninstall-haxelib:
+uninstall:
 	haxelib remove shell-completion
 
 clean:
 	rm -f run.n shell-completion.zip
 
-.PHONY: haxelib install-haxelib uninstall-haxelib clean
+.PHONY: haxelib install uninstall clean

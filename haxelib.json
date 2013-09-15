@@ -4,7 +4,7 @@
 	"license": "Public",
 	"tags": ["shell","completion","haxelib"],
 	"description": "Haxelib shell completion",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"releasenote": "Misc",
 	"contributors": ["tong"]
 }
