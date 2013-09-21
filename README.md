@@ -8,16 +8,10 @@ Currently linux only.
 #### Install
 
 # Make sure your $HAXELIB variable is set
-
-# Install from haxelib
-$ haxelib install shell-completion
-# Install from source
 $ git clone https://github.com/tong/haxelib-shell-completion
 $ cd haxelib-shell-completion
 $ make install
-# Install wrapper script
 $ sudo haxelib run shell-completion install
-Done.
 
 To test tab completion open a new shell (or source /etc/bash_completion.d/haxelib).
 
