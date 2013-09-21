@@ -1,47 +1,58 @@
-
 HAXELIB-SHELL-COMPLETION
 ========================
-Shell completion for haxelib and haxelib libraries
-Currently linux only.
+Shell completion for haxelib and libraries (currently linux only).
 
 
-#### Install
+### Install
+Make sure $HAXELIB environment variable is set
+```sh
+git clone https://github.com/tong/haxelib-shell-completion
+cd haxelib-shell-completion
 
-# Make sure your $HAXELIB variable is set
-$ git clone https://github.com/tong/haxelib-shell-completion
-$ cd haxelib-shell-completion
-$ make install
-$ sudo haxelib run shell-completion install
+# Build and install as haxelib
+make install
 
-To test tab completion open a new shell (or source /etc/bash_completion.d/haxelib).
+# Install wrapper script
+# Normally the default completion files reside in /etc/bash_completion.d or /etc/profile.d
+sudo cp res/haxelib-completion.sh /etc/bash_completion.d/haxelib
+
+# To test completion open a new shell or run
+source /etc/bash_completion.d/haxelib
+```
 
 
-#### Usage
 
+### Usage
+```sh
 $ haxelib ⇥⇥
-config      install     proxy       search      submit
-dev         list        register    selfupdate  update
-git         local       remove      set         upgrade
+config      install     proxy       search      submit      
+dev         list        register    selfupdate  update      
+git         local       remove      set         upgrade     
 info        path        run         setup       user
+```
 
-$ haxelib li⇥⇥
-tora: [1.8.1]
-hxssl: [3.0.0-alpha]
-hxargs: [1.0.0]
-hxtemplo: [1.0.0-alpha.2]
-nekoboot: [1.0.0-alpha]
-mtwin: [1.6.0]
-hscript: [2.0.1]
-ogl: [0.2.0]
-format: [3.0.2]
-hxcpp: 3.0.2 [svn]
-hxmpp: 0.4.12 [0.4.12]
-...
+```sh
+$ haxelib li⇥⇥ # Completes 'list'
+$ haxelib list
+$ haxelib list ⇥⇥ # Completes installed libraries
+box2d
+cocktail
+flixel
+format
+hscript
+hxargs
+hxcpp
+hxmpp
+hxparse
+hxssl
+inotify
+inotify
+systools
+tora
+```
 
-## Haxelibs 'local' command is used to install a lokal haxelib.zip package (without submitting to the central repository)
-## As haxelib only accepts .zip files it will only suggest completion for such in the current filpath
-$ haxelib lo⇥⇥
-$ haxelib local⇥ 
-$ haxelib local mylib.zip (Assuming mylib.zip is the only zip file in wd)
-
-And so on ..
+```sh
+haxelib lo⇥⇥ # Completes 'local'
+haxelib local ⇥ # Completes with *.zip files
+haxelib local mylib.zip # Assuming mylib.zip is the only zip file in cwd
+```
