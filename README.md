@@ -47,10 +47,20 @@ inotify
 inotify
 systools
 tora
+tora
 ```
 
 ```sh
-haxelib lo⇥⇥ # Completes 'local'
-haxelib local ⇥ # Completes with *.zip files
-haxelib local mylib.zip # Assuming mylib.zip is the only zip file in cwd
+$ haxelib r⇥⇥
+register  remove    run       
+$ haxelib ru⇥
+$ haxelib run ⇥⇥ # Completes runable libraries (providing run.n)
+flixel
+hxcpp
+tora
+```
+
+```sh
+$ haxelib local ⇥ # Completes with *.zip files
+$ haxelib local mylib.zip # Assuming mylib.zip is the only zip file in cwd
 ```
