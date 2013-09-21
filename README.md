@@ -12,14 +12,12 @@ cd haxelib-shell-completion
 # Build and install as haxelib
 make install
 
-# Install wrapper script
-# Normally the default completion files reside in /etc/bash_completion.d or /etc/profile.d
+# Install wrapper script (normally /etc/bash_completion.d or /etc/profile.d)
 sudo cp res/haxelib-completion.sh /etc/bash_completion.d/haxelib
 
 # To test completion open a new shell or run
 source /etc/bash_completion.d/haxelib
 ```
-
 
 
 ### Usage
