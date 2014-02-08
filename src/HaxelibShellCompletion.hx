@@ -5,7 +5,7 @@ import sys.io.File;
 using StringTools;
 
 /**
-	Haxelib shell completion
+	Haxelib shell completion (run.n)
 */
 @:require(neko)
 class HaxelibShellCompletion {
@@ -110,14 +110,17 @@ class HaxelibShellCompletion {
 	}
 
 	static function main() {
+		
 		if( Sys.systemName() != 'Linux' ) error( 'OS not supported' );
 		if( haxelib_path == null ) error( 'HAXELIB environment variable not set' );
-		if( !FileSystem.exists( haxelib_path ) ) error( 'Haxelib not found ($haxelib_path)' );
+		if( !FileSystem.exists( haxelib_path ) ) error( 'haxelib not found ($haxelib_path)' );
+		
 		var args = Sys.args();
 		switch args.shift() {
 		case "haxelib":
 			var cword = Std.parseInt( args.pop() )-1;
 			var words = haxelib_complete( args, cword );
+			//trace(words);
 			if( words != null )
 				ShellCompletion.writeWords( words );
 		//case "cache": 

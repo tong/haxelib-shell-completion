@@ -2,4 +2,4 @@
 -neko run.n
 -cp src
 -dce full
-#--no-traces
+--no-traces

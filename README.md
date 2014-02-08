@@ -62,5 +62,5 @@ tora
 
 ```sh
 $ haxelib local ⇥ # Completes with *.zip files
-$ haxelib local mylib.zip # Assuming mylib.zip is the only zip file in cwd
+$ haxelib local mylib.zip
 ```

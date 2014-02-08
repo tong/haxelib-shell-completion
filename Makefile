@@ -5,6 +5,8 @@ PROJECT:=shell-completion
 SRC=src/*.hx
 HX=haxe -cp src
 
+all: run.n
+
 run.n: $(SRC) build.hxml
 	haxe build.hxml
 
@@ -22,4 +24,4 @@ uninstall:
 clean:
 	rm -f run.n shell-completion.zip
 
-.PHONY: haxelib install uninstall clean
+.PHONY: all haxelib install uninstall clean
